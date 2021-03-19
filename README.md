@@ -129,7 +129,7 @@ optional arguments:
 
 ### Docker
 
-Use the Docker image [AndreasArne:gazi](), it includes Jplag and StarskyAndHutch. Put the following in a docker-compose file.
+Use the Docker image [AndreasArne:gazi](https://hub.docker.com/repository/docker/andreasarne/gazi), it includes Jplag and StarskyAndHutch. Put the following in a docker-compose file.
 
 ```
 version: "3"
