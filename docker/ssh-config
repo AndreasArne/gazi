@@ -1,0 +1,6 @@
+LogLevel ERROR
+
+Host ssh.student.bth.se
+    HostName ssh.student.bth.se
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null

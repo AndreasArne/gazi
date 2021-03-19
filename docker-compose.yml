@@ -1,0 +1,10 @@
+version: "3"
+services:
+  gazi:
+    build: .
+    container_name: gazi
+    image: andreasarne/gazi:build
+    volumes:
+      - ./courses:/home/dbwebb/courses
+      - /c/Users/aar/.ssh:/home/dbwebb/.ssh-keys
+      - /c/Users/aar/.dbwebb.config:/home/dbwebb/.dbwebb.config.real
