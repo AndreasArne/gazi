@@ -138,7 +138,7 @@ Use the Docker image [AndreasArne:gazi](https://hub.docker.com/repository/docker
 version: "3"
 services:
 gazi:
-  image: andreasarne/gazi
+  image: andreasarne/gazi:0.1.0 #<version>
   volumes:
     - <path-to-your-folder-with-courses-and-.jplag.cfg>:/home/dbwebb/courses
     - <path-to-your-ssh-key-folder>:/home/dbwebb/.ssh-keys
