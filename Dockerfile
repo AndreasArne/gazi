@@ -17,7 +17,8 @@ RUN wget -q https://packages.sury.org/php/apt.gpg -O- | apt-key add - && \
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        openjdk-11-jre-headless openssh-client
+        openjdk-11-jre-headless openssh-client \
+        python3-pip
 
 # change back to dbwebb user
 USER 1000
