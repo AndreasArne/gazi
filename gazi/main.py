@@ -19,6 +19,7 @@ def download_and_copy_students_files(acronyms, filenames, args, paths, parser):
 
 def run_student(acr, filenames, paths, parser, download_folder="me"):
     print(f"Downloading {download_folder}/ for student {acr}")
+    run_command(f"cd {paths['course_repo']} && rm -rf me && dbwebb init-me")
     run_command(f"cd {paths['course_repo']} && dbwebb -s -f download {download_folder} {acr}", text=True, input="y\n")
 
     print(f"Copying files for student {acr}")
@@ -51,13 +52,8 @@ def run_jplag(options):
 def run_command(command, **kwargs):
     result = subprocess.run(command, shell=True, capture_output=True, **kwargs)
     if result.stderr:
-        print(result.stdout.decode("utf-8").rstrip())
-        print(result.stderr.decode("utf-8").rstrip())
-        raise subprocess.CalledProcessError(
-            returncode = result.returncode,
-            cmd = result.args,
-            stderr = result.stderr
-        )
+        print(result.stdout.rstrip())
+        print(result.stderr.rstrip())
     return result
 
 
