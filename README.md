@@ -62,6 +62,8 @@ l=python3
 
 ### Folder structure
 
+Create folder `starskyandhutch`, starskyandhutch will put html files, with visualization in that folder.
+
 For each course you want to run, create folder with its name. Inside that folder add the following:
 
 - Clone of the course repo with dbwebb-cli. This repo is used to download the code for each student.
@@ -80,6 +82,7 @@ Example of folder structure:
 
 ```
 .jplag.cfg
+starskyandhutch/
 oopython/
     oopython/ # course repo
     base/

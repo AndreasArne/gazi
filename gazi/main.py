@@ -49,6 +49,12 @@ def run_jplag(options):
 
 
 
+def run_starsky_and_hutch(course):
+    cmd = f"starsky {course}"
+    output = run_command(cmd).stdout.decode("utf-8").rstrip()
+    return output
+
+
 def run_command(command, **kwargs):
     result = subprocess.run(command, shell=True, capture_output=True, **kwargs)
     if result.stderr:
@@ -77,7 +83,7 @@ def run():
 
     check_students_code(jplag_cfg, args, paths)
 
-
+    print(run_starsky_and_hutch(args.course))
 
 if __name__ == '__main__':
     run()
