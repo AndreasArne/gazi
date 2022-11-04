@@ -5,7 +5,7 @@ Gazi is the Zulu word for bloodhound.
 
 Gazi is an integration between the [dbwebb environment](https://github.com/dbwebb-se/dbwebb-cli) (for university courses), [jplag](https://github.com/CodeGra-de/jplag) (plagiarism detection for source code) and [starskyandhutch](https://github.com/emilfolino/starskyandhutch) (visualize Jplag result).
 
-Use this to run jplag on the code students have created in the dbwebb courses. Gazi use the file ".dbwebb.moss" in a course repo to decide which of the students files are compared. You can see an example here [oopython/.dbwebb.moss](https://github.com/dbwebb-se/oopython/blob/master/.dbwebb.moss).
+Use this to run jplag on the code students have created in the dbwebb courses. Gazi use the file ".dbwebb.moss" in a course repo to decide which of the students files are compared. You can see an example here [oopython/.dbwebb.moss](https://github.com/dbwebb-se/oopython/blob/master/.dbwebb.moss). It also supports filepaths with `*` at the end of directory paths, it will then take all files recursivly from that directory. Specific files and directories can be excluded with `!` at the start of the path.
 
 
 
@@ -81,7 +81,7 @@ When Gazi is running, it adds the folders `submissions` and `result`. **PS** The
 Example of folder structure:
 
 ```
-.jplag.cfg
+jplag.cfg
 starskyandhutch/
 oopython/
     oopython/ # course repo
@@ -138,7 +138,7 @@ Use the Docker image [AndreasArne:gazi](https://hub.docker.com/repository/docker
 version: "3"
 services:
 gazi:
-  image: andreasarne/gazi:0.1.0 #<version>
+  image: andreasarne/gazi:0.2.0 #<version>
   volumes:
     - <path-to-your-folder-with-courses-and-.jplag.cfg>:/home/dbwebb/courses
     - <path-to-your-ssh-key-folder>:/home/dbwebb/.ssh-keys

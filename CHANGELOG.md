@@ -15,6 +15,14 @@ Available types:
 
 ## [Unreleased]
 
+## [0.2.0] - 2022-11-04
+### Added
+- Supports wildcard in moss file for files to copy (with `*`).
+- When copying with wildcard, can exclude files (with `!`).
+
+
+### Fixed
+- Gazi looked for `.jplag.cfg` instead of `jplag.cfg`.
 
 ## [0.1.0] - 2021-10-12
 ### Added
