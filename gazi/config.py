@@ -70,6 +70,7 @@ def get_filenames_from_section(section):
             optional_names = [add_path_to_optional_name(name, key) for name in optional_file_names.split(",")]
             tmp.extend(optional_names)
             files.append(tmp)
+
     return files
 
 
@@ -84,7 +85,7 @@ def add_path_to_optional_name(name, parent_name=None):
 
 
 def read_config(course):
-    config_name = ".jplag.cfg"
+    config_name = "jplag.cfg"
     config = configparser.ConfigParser(allow_no_value=True)
     # Ovverride default behavion, which changes keys to lower-case
     config.optionxform = lambda option: option
