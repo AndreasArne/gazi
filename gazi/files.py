@@ -1,5 +1,6 @@
 import shutil
 import os
+import glob
 from pathlib import Path
 
 def clear_submissions_folder(paths):
@@ -16,7 +17,15 @@ def read_acronyms(args):
 
 
 def copy_student_files(filenames, paths, acrn, parser):
+    include = []
+    exclude = []
     for filename in filenames:
+        if filename[0] == "!":
+            exclude.append(filename[1:])
+        else:
+            include.append(filename)
+
+    for filename in include:
         if isinstance(filename, list):
             found = False
             for alternate_name in filename:
@@ -25,6 +34,27 @@ def copy_student_files(filenames, paths, acrn, parser):
                     break
             if not found:
                 print(f"Missing {','.join(filename)} for {acrn}")
+
+
+        elif filename.endswith("*"):
+            glob_path = f"{paths['course_repo']}/{filename}*/**"
+            glob_files = glob.iglob(glob_path, recursive=True)
+            for filename2 in glob_files:
+                for efile in exclude:
+                    if efile in filename2:
+                        break
+                else:
+                    name_without_repo_path = filename2.replace(
+                        paths["course_repo"]+"/",
+                        ""
+                    )
+                    copy_file(
+                        f"{filename2}",
+                        create_path_with_unique_name(name_without_repo_path, paths, acrn),
+                        parser
+                    )
+
+
         else:
             if not copy_file(f"{paths['course_repo']}/{filename}", create_path_with_unique_name(filename, paths, acrn), parser):
                 print(f"Missing {filename} for {acrn}")
@@ -39,8 +69,11 @@ def copy_file(src, dest, parser):
     try:
         with open(src, "r") as fds:
             src_content = fds.read()
-    except FileNotFoundError:
+    except (FileNotFoundError, IsADirectoryError):
         return False
+    except UnicodeDecodeError as e:
+        print(f"Can't read file {src}\n{str(e)}")
+        exit(1)
 
     if parser is not None:
         src_content = parser.parse(src_content)
@@ -70,7 +103,6 @@ def create_path_with_unique_name(src, paths, acrn):
     path_as_list = src.split("/")
     path_without_me_kmom = path_as_list[2:]
     kmom = path_as_list[1]
-
     dest_dir = paths["dest_student"].format(
         kmom=kmom,
         acrn=acrn,
