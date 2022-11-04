@@ -5,9 +5,9 @@ USER root
 
 RUN mkdir -p /usr/share/man/man1 /usr/share/man/man2
 
-# Need to update keys, otherwise can't do update
-RUN wget -q https://packages.sury.org/php/apt.gpg -O- | apt-key add - && \
-    echo "deb https://packages.sury.org/php/ stretch main" | tee /etc/apt/sources.list.d/php.list
+
+RUN curl https://packages.sury.org/php/apt.gpg | gpg --dearmor | tee /usr/share/keyrings/apt.gpg > /dev/null 2>&1
+RUN echo "deb [signed-by=/usr/share/keyrings/apt.gpg] https://packages.sury.org/php/apt sarge contrib"
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
