@@ -11,7 +11,7 @@ RUN echo "deb [signed-by=/usr/share/keyrings/apt.gpg] https://packages.sury.org/
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        openjdk-11-jre-headless openssh-client \
+        openjdk-17-jre-headless openssh-client \
         python3-pip
 
 # change back to dbwebb user
@@ -23,21 +23,29 @@ RUN mkdir .ssh
 
 RUN mkdir lib
 
+ADD --chown=dbwebb:dbwebb docker/report-viewer "lib/report-viewer"
+
+WORKDIR "/home/dbwebb/lib/report-viewer"
+
+RUN npm install http-server
+
+RUN npm install
+
+RUN npm run build
+
+WORKDIR "/home/dbwebb"
+
 ADD docker/jplag.jar "lib/"
 
 ADD --chown=dbwebb:dbwebb docker/jplag.sh "/usr/local/bin/jplag"
 
 ADD --chown=dbwebb:dbwebb docker/ssh-config "/home/dbwebb/.ssh/config"
 
-ADD --chown=dbwebb:dbwebb docker/starsky.sh "/usr/local/bin/starsky"
-
 ADD docker/entrypoint.sh "/home/dbwebb"
 
 ADD dist/*.whl "/home/dbwebb/lib"
 
 RUN pip3 install /home/dbwebb/lib/*.whl
-
-RUN cd lib && git clone https://github.com/emilfolino/starskyandhutch.git
 
 VOLUME "/home/dbwebb/courses"
 

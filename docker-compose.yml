@@ -6,5 +6,7 @@ services:
     image: andreasarne/gazi:build
     volumes:
       - ./courses:/home/dbwebb/courses
-      - /c/Users/aar/.ssh:/home/dbwebb/.ssh-keys
-      - /c/Users/aar/.dbwebb.config:/home/dbwebb/.dbwebb.config.real
+      - /home/aar/.ssh:/home/dbwebb/.ssh-keys
+      - /home/aar/.dbwebb.config:/home/dbwebb/.dbwebb.config.real
+    ports:
+      - "8083:8083"
