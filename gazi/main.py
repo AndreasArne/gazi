@@ -60,22 +60,28 @@ def run_command(command, **kwargs):
 
 def run():
     args = config.parse_args()
-    jplag_cfg = config.read_config(args.course)
-    paths = config.create_common_paths(args)
-    if not args.skipd:
-        acronyms = files.read_acronyms(args)
+    if args.create_dirs:
+        run_command(
+            f"mkdir -p {args.create_dirs}/{args.course}/{{base,result,submissions/{args.kmom}}}",
+            executable='/bin/bash'
+        )
+    else:
+        jplag_cfg = config.read_config(args.course)
+        paths = config.create_common_paths(args)
+        if not args.skipd:
+            acronyms = files.read_acronyms(args)
 
-        files.clear_submissions_folder(paths)
-        files_to_check = config.get_all_filenames_to_check(args.course, args.kmom, paths)
-        
-        try:
-            parser = importlib.import_module(f"gazi.parsers.{jplag_cfg[args.course]['l']}")
-        except ModuleNotFoundError:
-            parser = None
+            files.clear_submissions_folder(args.kmom, paths)
+            files_to_check = config.get_all_filenames_to_check(args.course, args.kmom, paths)
 
-        download_and_copy_students_files(acronyms, files_to_check, args, paths, parser)
+            try:
+                parser = importlib.import_module(f"gazi.parsers.{jplag_cfg[args.course]['l']}")
+            except ModuleNotFoundError:
+                parser = None
 
-    check_students_code(jplag_cfg, args, paths)
+            download_and_copy_students_files(acronyms, files_to_check, args, paths, parser)
+
+        check_students_code(jplag_cfg, args, paths)
 
 if __name__ == '__main__':
     run()

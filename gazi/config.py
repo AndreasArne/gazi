@@ -20,10 +20,12 @@ def parse_args():
                         help="Skip download phase and use files already in submissions folder.")
 
 
+    parser.add_argument('--create-dirs', nargs='?', type=str, const="courses", dest="create_dirs",
+                        help="Create directory structure needed to run gazi.")
+
+
 # arg for output to file
 # arg for quiet
-# skapa mappar
-
     args = parser.parse_args()
     return args
 
