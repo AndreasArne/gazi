@@ -3,7 +3,7 @@ Gazi
 
 Gazi is the Zulu word for bloodhound.
 
-Gazi is an integration between the [dbwebb environment](https://github.com/dbwebb-se/dbwebb-cli) (for university courses), [jplag](https://github.com/CodeGra-de/jplag) (plagiarism detection for source code) and [starskyandhutch](https://github.com/emilfolino/starskyandhutch) (visualize Jplag result).
+Gazi is an integration between the [dbwebb environment](https://github.com/dbwebb-se/dbwebb-cli) (for university courses) and [JPlag](https://github.com/JPlag/jplag) (plagiarism detection for source code). **Now also includes the JPlag [report-view](https://jplag.github.io/JPlag/)!**
 
 Use this to run jplag on the code students have created in the dbwebb courses. Gazi use the file ".dbwebb.moss" in a course repo to decide which of the students files are compared. You can see an example here [oopython/.dbwebb.moss](https://github.com/dbwebb-se/oopython/blob/master/.dbwebb.moss). It also supports filepaths with `*` at the end of directory paths, it will then take all files recursivly from that directory. Specific files and directories can be excluded with `!` at the start of the path.
 
@@ -27,33 +27,19 @@ Run `potatoe` on all students before running Gazi to avoid permission errors on 
 
 ### Jplag options
 
-Create the file `jplag.cfg`, here you add configuration for jplag. Add a section for each course, you can also add a default section for having default options for all courses. Available options are the following:
+Create the file `jplag.cfg`, here you add configuration for jplag. Add a section for each course, you can also add a default section for having default options for all courses. Available options are the `named arguments` and `advanced` found [here](https://github.com/jplag/JPlag/tree/b816be5909fc6b97dfc3e533113c3d68af3f037d#cli). Skipp `-` before flags in config file.
 
-```
-v[qlpd]        (Verbose)
-                    q: (Quiet) no output
-                    l: (Long) detailed output
-                    p: print all (p)arser messages
-                    d: print (d)etails about each submission
-d              (Debug) parser. Non-parsable files will be stored.
-o <file>       (Output) The Parserlog will be saved to <file>
-                    that are included. ("-p ?" for defaults)
-t <n>          (Token) Tune the sensitivity of the comparison. A smaller
-                    <n> increases the sensitivity.
-m <n>          (Matches) Number of matches that will be saved (default:20)
-m <p>%         All matches with more than <p>% similarity will be saved.
-l <language>   (Language) Supported Languages:
-                    java19 (default), java 17, java15, java15dm, java12, java11, python3, php, javascript, c/c++, c#-1.2, char, text, scheme
+**Note!** 
+- You have to set language for each course. All other options are optional.
+- You can't change `bc`, it will always use directory `base`.
+- You can't change `r`, it will always use directory `results`. Because JPlag use it for filename instead of directory name which it says in docs.
+- You only need `-s` if you want it to look in specific subdirectory in each students subdirectory. Not necessary in most cases.
 
-```
-
-**Note!** that you have to set language for each course. All other options are optional.
-
-Example with course oopython where we set output to quite as default for all courses:
+Example with course `oopython` where we set output to quite as default for all courses:
 
 ```
 [DEFAULT]
-vq
+m=0.3
 [oopython]
 l=python3
 ```
@@ -61,8 +47,6 @@ l=python3
 
 
 ### Folder structure
-
-Create folder `starskyandhutch`, starskyandhutch will put html files, with visualization in that folder.
 
 For each course you want to run, create folder with its name. Inside that folder add the following:
 
@@ -92,13 +76,16 @@ oopython/
 devops/
     devops/ # course repo
     base/
+        kmom05/
+            file.py
     acronyms.txt
     submissions/
         kmom05/
             acronym1/
+                file.py
             acronym2/
+                file.py
     results/
-        kmom05/
 ```
 
 Do this for each course you want to run it on.
@@ -126,23 +113,39 @@ optional arguments:
                         Name of file with acronyms. Default is "acronyms.txt"
   --skipd               Skip download phase and use files already in
                         submissions folder.
+  --create-dirs [CREATE_DIRS]
+                        Create directory structure needed to run gazi.
 ```
 
 
 
 ### Docker
 
-Use the Docker image [AndreasArne:gazi](https://hub.docker.com/repository/docker/andreasarne/gazi), it includes Jplag and StarskyAndHutch. Put the following in a docker-compose file.
+Use the Docker image [AndreasArne:gazi](https://hub.docker.com/repository/docker/andreasarne/gazi), it includes Jplag. Put the following in a docker-compose file.
 
 ```
 version: "3"
 services:
 gazi:
-  image: andreasarne/gazi:0.2.0 #<version>
+  image: andreasarne/gazi:1.0.0 #<version>
   volumes:
     - <path-to-your-folder-with-courses-and-.jplag.cfg>:/home/dbwebb/courses
     - <path-to-your-ssh-key-folder>:/home/dbwebb/.ssh-keys
     - <path-to-dbwebb-config>/.dbwebb.config:/home/dbwebb/.dbwebb.config.real
 ```
 
-Example of running gazi on kmom05 in course oopython, `docker-compose run gazi oopython kmom05`. Put gazi commands after `gazi`.
+Example of running gazi on kmom05 in course oopython, `docker-compose run --service-ports gazi oopython kmom05 --skipd`. Put gazi commands after `gazi`. Need `--service-ports`otherwise docker-compose ignore opening ports.
+
+After running it, go to `localhost:8083` and drag the zip file to view result.
+
+
+
+## Development
+
+### JPlag
+
+- When updating to new version, update which JPlag version is used in `report-viewer/src/version.json`.
+
+### Report-viewer
+
+- When updating to new version, update which JPlag version is used in `report-viewer/src/version.json`.

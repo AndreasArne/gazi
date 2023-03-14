@@ -15,6 +15,17 @@ Available types:
 
 ## [Unreleased]
 
+## [1.0.0] - 2023-03-14
+### Changed
+- From CodeGrade jplag to JPlag jplag v4.2.0
+- Only deletes specific kmom dir in submissions, not all.
+### Added
+- JPlag's report-viewer in Docker to view result
+- Option to create courses directory structure.
+### Removed
+- StarskyAndHutch - JPlags version is better
+
+
 ## [0.2.0] - 2022-11-04
 ### Added
 - Supports wildcard in moss file for files to copy (with `*`).
