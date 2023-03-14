@@ -49,9 +49,8 @@ def get_all_filenames_to_check(course, kmom, paths):
 
 
 def read_dbwebb_moss_file(paths):
-    # kolla om kursmappen finns. Annars skapa med dbwebb?
     config = configparser.ConfigParser(allow_no_value=True)
-    # Ovverride default behavion, which changes keys to lower-case
+    # Override default behavior, which changes keys to lower-case
     config.optionxform = lambda option: option
     config.read(f"{paths['course_repo']}/.dbwebb.moss")
     return config
@@ -87,7 +86,7 @@ def add_path_to_optional_name(name, parent_name=None):
 def read_config(course):
     config_name = "jplag.cfg"
     config = configparser.ConfigParser(allow_no_value=True)
-    # Ovverride default behavion, which changes keys to lower-case
+    # Override default behavior, which changes keys to lower-case
     config.optionxform = lambda option: option
     config.read(config_name)
     if course not in config:
@@ -113,7 +112,6 @@ def create_common_paths(args):
 
 
 def format_jplag_options_with_all_options(cfg, kmom, paths):
-    cfg["s"] = f"{paths['submissions']}/{kmom}"
     if path.isfile(f"{paths['base']}/{kmom}"):
         cfg["bc"] = f"{paths['base']}/{kmom}"
     else:
@@ -122,10 +120,6 @@ def format_jplag_options_with_all_options(cfg, kmom, paths):
         except KeyError:
             pass
     cfg["r"] = f"{paths['result']}/{kmom}"
-    
-    if "o" in cfg:
-        # added workdir to output path, otherwise jplag creates the file in the lib directory
-        cfg["o"] = f"{getcwd()}{cfg['o']}"
 
     options = []
     for k, v in cfg.items():
@@ -133,4 +127,6 @@ def format_jplag_options_with_all_options(cfg, kmom, paths):
             options.append(f"-{k}")
         else:
             options.append(f"-{k} {v}")
+    options.append(f"{paths['submissions']}/{kmom}")
+    
     return " ".join(options)
