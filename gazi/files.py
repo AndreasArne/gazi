@@ -3,9 +3,14 @@ import os
 import glob
 from pathlib import Path
 
-def clear_submissions_folder(paths):
-    shutil.rmtree(paths["submissions"], ignore_errors=True)
-    current_dir = Path(paths["submissions"])
+def clear_submissions_folder(kmom, paths):
+    if kmom:
+        path = f'{paths["submissions"]}/{kmom}'
+    else:
+        path = f'{paths["submissions"]}'
+
+    shutil.rmtree(path, ignore_errors=True)
+    current_dir = Path(path)
     current_dir.mkdir()
 
 
