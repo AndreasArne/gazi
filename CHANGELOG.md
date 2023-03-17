@@ -15,6 +15,10 @@ Available types:
 
 ## [Unreleased]
 
+## [1.0.1] - 2023-03-17
+### Fixed
+- Now uses parsers to remove non allowed chars from students code.
+
 ## [1.0.0] - 2023-03-14
 ### Changed
 - From CodeGrade jplag to JPlag jplag v4.2.0
