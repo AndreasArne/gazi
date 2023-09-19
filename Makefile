@@ -101,7 +101,7 @@ args = $(filter-out $@,$(MAKECMDGOALS))
 # target: run                             - run docker container.
 .PHONY: run
 run: buildp buildd
-	docker-compose run gazi $(call args,"")
+	docker-compose run --service-ports gazi $(call args,"")
 
 
 
