@@ -18,6 +18,7 @@ cd /home/dbwebb/courses
 # exec "$@"
 eval "$@"
 
+[[ $? -ne 0 ]] && exit 1
 
 
 # run report viewer
