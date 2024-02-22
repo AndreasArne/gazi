@@ -40,7 +40,6 @@ def copy_student_files(filenames, paths, acrn, parser):
             if not found:
                 print(f"Missing {','.join(filename)} for {acrn}")
 
-
         elif filename.endswith("*"):
             glob_path = f"{paths['course_repo']}/{filename}*/**"
             glob_files = glob.iglob(glob_path, recursive=True)
@@ -58,12 +57,27 @@ def copy_student_files(filenames, paths, acrn, parser):
                         create_path_with_unique_name(name_without_repo_path, paths, acrn),
                         parser
                     )
-
+        elif "*" in filename:
+            glob_path = f"{paths['course_repo']}/{filename}"
+            glob_files = glob.iglob(glob_path, recursive=True)
+            for filename2 in glob_files:
+                for efile in exclude:
+                    if efile in filename2:
+                        break
+                else:
+                    name_without_repo_path = filename2.replace(
+                        paths["course_repo"]+"/",
+                        ""
+                    )
+                    copy_file(
+                        f"{filename2}",
+                        create_path_with_unique_name(name_without_repo_path, paths, acrn),
+                        parser
+                    )
 
         else:
             if not copy_file(f"{paths['course_repo']}/{filename}", create_path_with_unique_name(filename, paths, acrn), parser):
                 print(f"Missing {filename} for {acrn}")
-
 
 
 def copy_file(src, dest, parser):
