@@ -22,4 +22,4 @@ eval "$@"
 
 # run report viewer
 cd /home/dbwebb/lib/report-viewer/
-./node_modules/http-server/bin/http-server -p 8083 dist
+./node_modules/http-server/bin/http-server -p $VIEWER_PORT dist
