@@ -40,7 +40,7 @@ RUN npm run build
 
 WORKDIR "/home/dbwebb"
 
-ADD docker/jplag.jar "lib/"
+ADD --chown=dbwebb:dbwebb docker/jplag.jar "lib/"
 
 ADD --chown=dbwebb:dbwebb docker/jplag.sh "/usr/local/bin/jplag"
 
