@@ -20,8 +20,8 @@ def parse_args():
                         help="Skip download phase and use files already in submissions folder.")
 
 
-    parser.add_argument('--create-dirs', nargs='?', type=str, const="courses", dest="create_dirs",
-                        help="Create directory structure needed to run gazi.")
+    parser.add_argument('--create-dirs', nargs='?', type=str, const="Courses", dest="create_dirs",
+                        help="Create directory structure needed to run gazi. Before running you need to create folder 'courses' and jplag.cfg inside 'courses'. Command created dirs <course>/{base,result,submissions,acronyms.txt} inside 'courses'")
 
 
 # arg for output to file
@@ -114,13 +114,14 @@ def create_common_paths(args):
 
 
 def format_jplag_options_with_all_options(cfg, kmom, paths):
-    # if path.isfile(f"{paths['base']}/{kmom}"):
-    #     cfg["bc"] = f"{paths['base']}/{kmom}"
-    # else:
-    #     try:
-    #         del cfg["bc"] # ignore if not exist
-    #     except KeyError:
-    #         pass
+    if path.isdir(f"{paths['base']}/{kmom}"):
+        cfg["bc"] = f"{paths['base']}/{kmom}"
+    else:
+        try:
+            del cfg["bc"] # ignore if not exist
+        except KeyError:
+            pass
+    cfg["M"] = "RUN"
     cfg["r"] = f"{paths['result']}/{kmom}"
 
     options = []

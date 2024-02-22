@@ -1,7 +1,6 @@
 import subprocess
 import glob
 import importlib
-from pathlib import Path
 
 from gazi import config
 from gazi import files
@@ -33,7 +32,7 @@ def check_students_code(cfg, args, paths):
     print("Running jplag!")
     if args.kmom:
         options_str = config.format_jplag_options_with_all_options(cfg_dict, args.kmom, paths)
-        run_jplag(options_str)
+        print(run_jplag(options_str))
     else:
         glob_pattern = f'{paths["submissions"]}/*'
         for f in glob.glob(glob_pattern):
@@ -62,7 +61,11 @@ def run():
     args = config.parse_args()
     if args.create_dirs:
         run_command(
-            f"mkdir -p {args.create_dirs}/{args.course}/{{base,result,submissions/{args.kmom}}}",
+            f"mkdir -p {args.course}/{{base,result,submissions/{args.kmom}}}",
+            executable='/bin/bash'
+        )
+        run_command(
+            f"touch {args.course}/acronyms.txt",
             executable='/bin/bash'
         )
     else:
