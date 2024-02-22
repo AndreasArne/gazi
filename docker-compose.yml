@@ -6,7 +6,9 @@ services:
     image: andreasarne/gazi:build
     volumes:
       - ./courses:/home/dbwebb/courses
-      - /home/aar/.ssh:/home/dbwebb/.ssh-keys
-      - /home/aar/.dbwebb.config:/home/dbwebb/.dbwebb.config.real
+      - /home/zeldah/.ssh:/home/dbwebb/.ssh-keys
+      - /home/zeldah/.dbwebb.config:/home/dbwebb/.dbwebb.config.real
+    environment:
+      - "VIEWER_PORT=8083"
     ports:
       - "8083:8083"

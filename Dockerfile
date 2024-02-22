@@ -3,15 +3,20 @@ FROM dbwebb/courserepo:cli
 # Need to be root to install java, and create man folders because of some problem with certificates.
 USER root
 
-RUN mkdir -p /usr/share/man/man1 /usr/share/man/man2
+RUN mkdir -p /usr/share/man/man1 /usr/share/man/man2 /usr/local/jdk-21
 
+RUN wget https://download.java.net/java/GA/jdk21.0.2/f2283984656d49d69e91c558476027ac/13/GPL/openjdk-21.0.2_linux-x64_bin.tar.gz -O /tmp/jdk21.tar.gz
+RUN tar -xvf /tmp/jdk21.tar.gz -C /tmp
+RUN mv /tmp/jdk-21.0.2/* /usr/local/jdk-21/
+ENV JAVA_HOME=/usr/local/jdk-21
+ENV PATH=$JAVA_HOME/bin:$PATH
 
-RUN curl https://packages.sury.org/php/apt.gpg | gpg --dearmor | tee /usr/share/keyrings/apt.gpg > /dev/null 2>&1
+RUN apt-key adv --fetch-keys 'https://packages.sury.org/php/apt.gpg' > /dev/null 2>&1
 RUN echo "deb [signed-by=/usr/share/keyrings/apt.gpg] https://packages.sury.org/php/apt sarge contrib"
 
-RUN apt-get update && \
+RUN apt-get update && apt-get install ca-certificates && \
     apt-get install -y --no-install-recommends \
-        openjdk-17-jre-headless openssh-client \
+        openssh-client \
         python3-pip
 
 # change back to dbwebb user

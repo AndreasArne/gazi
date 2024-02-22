@@ -114,13 +114,13 @@ def create_common_paths(args):
 
 
 def format_jplag_options_with_all_options(cfg, kmom, paths):
-    if path.isfile(f"{paths['base']}/{kmom}"):
-        cfg["bc"] = f"{paths['base']}/{kmom}"
-    else:
-        try:
-            del cfg["bc"] # ignore if not exist
-        except KeyError:
-            pass
+    # if path.isfile(f"{paths['base']}/{kmom}"):
+    #     cfg["bc"] = f"{paths['base']}/{kmom}"
+    # else:
+    #     try:
+    #         del cfg["bc"] # ignore if not exist
+    #     except KeyError:
+    #         pass
     cfg["r"] = f"{paths['result']}/{kmom}"
 
     options = []
