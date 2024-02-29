@@ -15,6 +15,16 @@ Available types:
 
 ## [Unreleased]
 
+## [2.0.0] - 2024-02-29
+### Added
+- .moss file can now have paths with **/*.filending
+### Changed
+- Upped jplag to v5.0
+
+### Fixed
+- --create-dirs creates correct structure
+
+
 ## [1.0.1] - 2023-03-17
 ### Fixed
 - Now uses parsers to remove non allowed chars from students code.
