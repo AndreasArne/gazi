@@ -68,6 +68,10 @@ def run():
             f"touch {args.course}/acronyms.txt",
             executable='/bin/bash'
         )
+        run_command(
+            f"dbwebb clone {args.course} {args.course}/{args.course}",
+            executable='/bin/bash'
+        )
     else:
         jplag_cfg = config.read_config(args.course)
         paths = config.create_common_paths(args)

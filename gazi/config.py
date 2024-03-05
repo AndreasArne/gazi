@@ -21,7 +21,7 @@ def parse_args():
 
 
     parser.add_argument('--create-dirs', nargs='?', type=str, const="Courses", dest="create_dirs",
-                        help="Create directory structure needed to run gazi. Before running you need to create folder 'courses' and jplag.cfg inside 'courses'. Command created dirs <course>/{base,result,submissions,acronyms.txt} inside 'courses'")
+                        help="Create directory structure needed to run gazi. Before running you need to create folder 'courses' and jplag.cfg inside 'courses'. Command created dirs <course>/{base<course>,result,submissions,acronyms.txt} inside 'courses'")
 
 
 # arg for output to file
