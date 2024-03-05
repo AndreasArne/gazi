@@ -62,7 +62,9 @@ Update the `.dbwebb.moss` file in your course repo to use this structure, [examp
 me/<kmom>/**/*.py
 ```
 
-Now you are ready to run Gazi. `docker-compose run --service-ports gazi <course> <kmom>`.
+Now you are ready to run Gazi. `docker-compose run --service-ports gazi <course> <kmom>`. This will generate a zip file inside `courses/<course>/result/<kmom>.zip`. Open your browser on the port displayen in terminal and drag-and-dop the zip file in that view.
+
+
 
 ### Jplag options
 
