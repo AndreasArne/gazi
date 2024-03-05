@@ -15,6 +15,10 @@ Available types:
 
 ## [Unreleased]
 
+## [2.0.1] - 2024-03-05
+### Added
+- --create-dirs also clones course repo.
+
 ## [2.0.0] - 2024-02-29
 ### Added
 - .moss file can now have paths with **/*.filending

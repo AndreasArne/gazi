@@ -23,7 +23,46 @@ Setup
 
 Run `potatoe` on all students before running Gazi to avoid permission errors on students.
 
+### Quick guide
 
+Put the following in a docker-compose file.
+
+```yaml
+version: "3"
+services:
+gazi:
+  image: andreasarne/gazi:2.1.0 #<version>
+  volumes:
+    - <path-to-your-folder-with-courses-and-.jplag.cfg>:/home/dbwebb/courses
+    - <path-to-your-ssh-key-folder>:/home/dbwebb/.ssh-keys
+    - <path-to-dbwebb-config>/.dbwebb.config:/home/dbwebb/.dbwebb.config.real
+```
+
+Create folder `courses` and inside it create file `jplag.cfg`.
+
+Run `docker-compose run gazi <course> --create-dirs`, press `ctrl+c` to exit server. This will create folders for the course inside folder `courses`.
+
+Inside `courses/<course>/acronyms.txt` put acronyms of students in course, one acronym per line.
+
+Open `jplag.cfg` and enter:
+```
+[<course>]
+l=<programming language>
+```
+You can find available languages [here](https://github.com/jplag/JPlag/tree/18d0c163ceb53668d439044dabd4a9759adc1b5f?tab=readme-ov-file#supported-languages).
+
+Update the `.dbwebb.moss` file in your course repo to use this structure, [example in oopython](https://github.com/dbwebb-se/oopython/blob/master/.dbwebb.moss).
+
+```config
+[<kmom>]
+# can have comments
+# paths start from "me" to file
+# one file per line.
+# wildcards for names and folders work
+me/<kmom>/**/*.py
+```
+
+Now you are ready to run Gazi. `docker-compose run --service-ports gazi <course> <kmom>`.
 
 ### Jplag options
 
