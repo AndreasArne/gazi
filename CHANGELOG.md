@@ -15,7 +15,11 @@ Available types:
 
 ## [Unreleased]
 
-## [2.0.1] - 2024-03-05
+## [2.1.1] - 2024-09-25
+### Changed
+- Bumbed jplag and report-viewer to v5.1.0
+
+## [2.1.0] - 2024-03-05
 ### Added
 - --create-dirs also clones course repo.
 
